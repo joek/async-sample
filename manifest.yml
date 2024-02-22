@@ -1,0 +1,10 @@
+---
+applications:
+- name: async-webhook-appstudio
+  command: node app.js
+  instances: 3
+  memory: 128M
+  default-route: true
+  buildpack: nodejs_buildpack
+  env: 
+    OPTIMIZE_MEMORY: "true"
