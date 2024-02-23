@@ -1,0 +1,9 @@
+- Scenario Descripion
+- Setup hanatrial and application studio
+- Import project
+- open Terminal and login to CF
+- Code review
+- deploy
+- Test deployment
+- Configure Communication System
+- Setup autoflow

@@ -14,16 +14,15 @@ app.use(express.json());
 
 console.log("Start....")
 
-app.post( '/webhook', function(req, res) {
+// webhook endpoint
+app.post( '/webhook', async function(req, res) {
+    // Extract data from event body. 
     id = req.body.data.currentImage.id
     data = req.body
-    console.log(JSON.stringify(data))
-    console.log(req.headers)
-    console.log(`Case Id: ${id}`)
-    console.log(`Parent Case Id: ${data.data.currentImage.parentCaseId}`)
+    // Vaildate if case has a parent case
     if(data.data && data.data.currentImage && !data.data.currentImage.parentCaseId){
-      console.log(`Create Sub-task for case: ${id}`)
-
+      
+      // Create new su
       subCaseData = {
         "subject": `Sub Case of ${data.data.currentImage.displayId}`,
         "caseType": "ZJEK",
@@ -41,7 +40,7 @@ app.post( '/webhook', function(req, res) {
         ]
       }
 
-      axios.post(`${base_url}/v1/case-service/cases`, subCaseData)
+      await axios.post(`${base_url}/v1/case-service/cases`, subCaseData)
       .then(function (response) {
         console.log(response)
         
@@ -49,9 +48,25 @@ app.post( '/webhook', function(req, res) {
       .catch(function (error) {
           // handle error
           console.log(error);
+          res.status(500)
         })
     }
-    res.send()
+    // Send response
+    res.end()
+})
+
+app.get('/health', async function(req, res){
+  // Get cases
+  await axios.get(`${base_url}/v1/case-service/cases`)
+    .then(function(response){
+      console.log("Healthy")
+    })
+    .catch(function(error){
+      console.log(error)
+      res.status(500)
+      res.body
+    })
+    res.end()
 })
 
 
