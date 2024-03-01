@@ -10,3 +10,4 @@ applications:
     OPTIMIZE_MEMORY: "true"
     SSC_USER: <USER_NAME>
     SSC_PASSWORD: <PASSWORD>
+    SERVICE_URL: <SERVICE_URL>
