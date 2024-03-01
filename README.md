@@ -79,21 +79,49 @@ As the coding of the project is done, we can start to configure and deploy it. T
 2. Inside SAP Business Application Studio open the command line terminal. This can be done with the icon in the upper right corner. 
 
 
-3. To Login, enter the following command. `cf login -a <endpoint url> You need to replace the endpoint URL with the URL you retrieved in the steps before.
+3. To Login, enter the following command. `cf login -a <endpoint url>` You need to replace the endpoint URL with the URL you retrieved in the steps before. Login using the emailadress and password of you BTP Trial Account.
 
+![Open Terminal and login to Cloud Foundry](images/08-CF-Login.png)
+*Cloud Foundry Login: If you are working on a fresh trial account, you are automaticaly logged in to the right org and space.*
 
+4. As a final step before we can deploy the application, we need to provide the service configuration. Please replace the placeholder in the `manifest.yaml` file with the information provided to you during the workshop.
 
+![Adjust manifest.yamy](images/09-manifest.png)
+*Adjust manifest file with the information provided during the workshop*
 
+5. After the setup is done, it is now time to deploy the application. To do so, simply run `cf push` in the command line terminal. This will upload the code, start three service instances on BTP and exposes it to the internet. You can find the URL of the service in the log output.
 
--	Add env variables
--	Connect Cloud Foundry
--	Deploy application
--	Test Endpoint (/test)
+![CF Push Log output](images/10-cf-logs.png)
+*You can find the service URL as part of the log output.
 
+6. To test if everything is correct, please open the service health endpoint (`https://<service endpoint>/health`). If there is no error, everything is fine and you can continue to setup SAP Sales and Service Cloud V2. If there is a configuration problem, you will see an error response. Please check the configuration in you manifest file and push again. You can see the service logs by running `cf logs <application name>`.
 
+![cf logs](images/11-cf-logs.png)
+*CF Application log*
 
 ### Step 4: Setup Sales and Service Cloud Version 2
--	Create Communication System with outbound config
--	Create Autoflow
+
+In SAP Sales and Service Cloud V2 two confirgurations are required. The Webservice needs to be registered as outbound communication system and we need a autoflow rule to trigger the service eveytime a new case of a certain type is created
+
+1. Create Communication system. Navigate to Settings -> Integration -> Communication System
+
+![Open Communication Systems](images/12-open-communicationsystem.png)
+*Navigate to Settings -> Integration -> Communication System*
+
+2. Create a new communication system using the + icon on top of the table.
+
+3. Set name and description and open the "Outbound" tab.
+
+![Configure Communication System and create outbound communication system](images/13-create-commuinicationsystem.png)
+
+4. Set Protocol to `https`, as URL you are using the service domain from the cloud foundry application and authentication method is `none`.
+
+![Configure Outbound System](images/14-outboundsystem.png)
+
+5. Save and Activate the Communication System.
+
+6. Navigate to the Autoflow connfiguration. 
+
+
 ### Step 5: Test
 a

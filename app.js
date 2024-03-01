@@ -25,7 +25,7 @@ app.post( '/webhook', async function(req, res) {
       // Create new sub-case
       subCaseData = {
         "subject": `Sub Case of ${data.data.currentImage.displayId}`,
-        "caseType": "ZJEK",
+        "caseType": "ZJH2",
         "origin": "MANUAL_DATA_ENTRY",
         "status": "01",
         "account": {
@@ -45,8 +45,7 @@ app.post( '/webhook', async function(req, res) {
         console.log(response)
         
       })
-      .catch(function (error) {
-          // handle error
+      .catch(function (error) {          // handle error
           console.log(error);
           res.status(500)
         })
@@ -60,12 +59,13 @@ app.get('/health', async function(req, res){
   await axios.get(`${base_url}/v1/case-service/cases`)
     .then(function(response){
       console.log("Healthy")
+      res.
     })
     .catch(function(error){
       console.log(error)
       res.status(500)
-      res.body 
     })
+  
   res.end()
 })
 
