@@ -8,3 +8,5 @@ applications:
   buildpack: nodejs_buildpack
   env: 
     OPTIMIZE_MEMORY: "true"
+    SSC_USER: <USER_NAME>
+    SSC_PASSWORD: <PASSWORD>

@@ -3,7 +3,7 @@ var app = express()
 const axios = require('axios');
 
 
-token = process.env.TOKEN
+token = Buffer.from(`${process.env.SSC_USER}:${process.env.SSC_PASSWORD}`).toString('base64')
 base_url = process.env.SERVICE_URL
 
 axios.defaults.headers.common['Authorization'] = `Basic ${token}`
@@ -22,7 +22,7 @@ app.post( '/webhook', async function(req, res) {
     // Vaildate if case has a parent case
     if(data.data && data.data.currentImage && !data.data.currentImage.parentCaseId){
       
-      // Create new su
+      // Create new sub-case
       subCaseData = {
         "subject": `Sub Case of ${data.data.currentImage.displayId}`,
         "caseType": "ZJEK",
@@ -64,9 +64,9 @@ app.get('/health', async function(req, res){
     .catch(function(error){
       console.log(error)
       res.status(500)
-      res.body
+      res.body 
     })
-    res.end()
+  res.end()
 })
 
 
