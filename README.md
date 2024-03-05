@@ -61,7 +61,7 @@ Your coding is going into the `app.js` file. We are exposing two endpoints. the 
 
 The business logic is exposed via `/webhook`. We are vaidating if the case is of a certain type. If this is the case, we are sending a post request to create the related sub-case.
 
-### Step 3: Configure Project and Deploy
+### Step 2: Configure Project and Deploy
 
 As the coding of the project is done, we can start to configure and deploy it. To do so, we need to adjust the missing information in the deployment descriptor, connect the cloud foundry CLI and finaly deploy the application.
 
@@ -99,7 +99,7 @@ As the coding of the project is done, we can start to configure and deploy it. T
 ![cf logs](images/11-cf-logs.png)
 *CF Application log*
 
-### Step 4: Setup Sales and Service Cloud Version 2
+### Step 3: Setup Sales and Service Cloud Version 2
 
 In SAP Sales and Service Cloud V2 two confirgurations are required. The Webservice needs to be registered as outbound communication system and we need a autoflow rule to trigger the service eveytime a new case of a certain type is created
 
@@ -120,8 +120,84 @@ In SAP Sales and Service Cloud V2 two confirgurations are required. The Webservi
 
 5. Save and Activate the Communication System.
 
-6. Navigate to the Autoflow connfiguration. 
+6. Navigate to the Autoflow connfiguration. (Settings -> Business Flow -> Autoflow)
+
+![Navigate to autoflow](images/15-navigate-autoflow.png)
+*Navigate to Settings -> Business Flow -> Autoflow*
+
+7. Create a new Autoflow rule using the (+) Button.
+
+8. Please use your firstname to name the autoflow rule and select `case` as flow entity.
+
+![Create Autoflow rule](images/16-select-case.png)
+*Use your name to name the autoflow rule and select case as entity*
+
+9. We will only create sub-cases if a case is newly created. Please ensure you select `Create Case` as event-type.
+
+![Select create events](images/17-eventtype.png)
+
+*Select `Create Case` event*
+
+10. In the rules section, we ensure sub cases are only created for a certain case-type and if the subject is conatining a certain key word. Please ensure, you use an AND conditions.
+
+![Configure rule set](images/18-rules.png)
+*Configure rules using case-type and subject*
+
+11. As output of the Autoflow we select `Send Event Notification`
+
+![Event Notification](images/19-create-action.png)
+*Select `Send event Notification` as flow action*
+
+12. To configure the event notification we need to set the event name communication system and subscrib path. 
+
+- Event Name: Some event name (not relevant in this case)
+- Communication System: The communication system we created earlier
+- Subscribe Path: `/webhook`
+
+![Configure Event Notification](images/20-configure-event.png)
+*Configure Event Notification*
+
+13. Save the autoflow
+
+14. Activate the autoflow
+
+### Step 4: Test
+
+In this step we will create a new case and validate, if the sub-case is created as expected.
+
+1. Create Case: Navigate to the case list and click the "+" icon. You need fill out some basic information.
+    - Case-Type: "Standard Case Type"
+    - Title: The title needs to include the keyword / name you defined during the autoflow configuration.
+    - You need to select an random account.
+2. Click "Save and Open" To open the case
+
+![Create Case](images/21-create-case.png)
+*Create Case: Please include the keyword configured in autoflow*
+
+3. Open the "Related Entities" Tab. Maybe you need to refresh a few times. As the processing is asynchrounus it might take a few seconds till the sub-case is created and showing up in the list.
+
+![Validate Sub-Case creation](images/22-validate-sub-case.png)
+*Validate if sub-case is created*
+
+## Summary
+
+In this development journey, we created a async side-by-side extension based on a real customer use-case. To make this classroom training we had to introduce a few shortcuts as well as spending more time on infrastructure setup. For customer projects it is important to have a extensibility architecture in place, which can be leveraged if needed. The extension patterns can give an indication for which scenarios to prepare and which infrastructure might be required. Due to the use of open industry standards, the extensibility architecture can be tailored to the needs of the customer and e.g. reuse existing components.
+
+## Troubleshooting
+
+In case the scenario is not working as expected there are multiple tools available for debugging.
+
+Autoflows logs can be found inside the Autoflow List page behind the three dots at the top right of the page.
+
+![Autoflow logs](images/23-rules-log.png)
+*Autoflow logs*
+
+Service logs can be shown using the command line.
+
+```
+$ cf logs <app_name>
+```
+
+The health endpoint described in the deployment section can also provide an indication if the application setup is correct. The endpoint is also testing the connection to service cloud.
 
 
-### Step 5: Test
-a
