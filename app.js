@@ -4,7 +4,7 @@ const axios = require('axios');
 
 
 token = Buffer.from(`${process.env.SSC_USER}:${process.env.SSC_PASSWORD}`).toString('base64')
-base_url = process.env.SERVICE_URL
+base_url = `${process.env.SERVICE_URL}/sap/c4c/api`
 
 axios.defaults.headers.common['Authorization'] = `Basic ${token}`
 axios.defaults.headers.common['content-type'] = "application/json"

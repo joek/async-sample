@@ -6,9 +6,10 @@ Prerequisites:
 -	[SAP BTP Trial](https://developers.sap.com/tutorials/hcp-create-trial-account.html)
 
 ## Scenario
-Our Service team is receiving frequently requests to remove personal data from the company databases. Currently the process is not fully automated, and the service team need to involve different teams via sub-case to fulfill the case. Our task is to automate this process, which can’t be solved inside the standard as of now.
-Solution Description
-The solution will be implemented using event based side-by-side development on the SAP Business Technology Platform. We will create an web-service written in nodejs, which is waiting for Events triggered by Autoflow. The Service will create two sub-cases based on the main case.
+Our Service Team is receiving frequently requests to remove personal data from the company databases. Currently the process is not fully automated, and the service team need to involve different teams via sub-case to fulfill the case. Our task is to automate this process, which can’t be solved inside the standard as of now.
+
+## Solution Description
+The solution will be implemented using event based side-by-side development on the SAP Business Technology Platform. We will create an web-service written in nodejs, which is waiting for Events triggered by Autoflow. The Service will create one sub-cases based on the main case.
 
 ![Async Architecture](images/architecture.png)
 *Architecture Overview*
@@ -59,7 +60,7 @@ The project includes the following files:
 
 Your coding is going into the `app.js` file. We are exposing two endpoints. the `/health` endpoint is used to validate the service. In most cases it is not necesarry to implement this endpoint. During the training we use it to vaildate the setup before configuring Sales and Service Cloud V2.
 
-The business logic is exposed via `/webhook`. We are vaidating if the case is of a certain type. If this is the case, we are sending a post request to create the related sub-case.
+The business logic is exposed via `/webhook`. We are validating if the case is of a certain type. If this is the case, we are sending a post request to create the related sub-case.
 
 ### Step 2: Configure Project and Deploy
 
@@ -89,10 +90,10 @@ As the coding of the project is done, we can start to configure and deploy it. T
 ![Adjust manifest.yamy](images/09-manifest.png)
 *Adjust manifest file with the information provided during the workshop*
 
-5. After the setup is done, it is now time to deploy the application. To do so, simply run `cf push` in the command line terminal. This will upload the code, start three service instances on BTP and exposes it to the internet. You can find the URL of the service in the log output.
+5. After the setup is done, it is now time to deploy the application. To do so, simply run `cf push` in the command line terminal. This will upload the code, start three service instances on BTP and exposes it to the internet. You can find the URL of the service in the log output or using the command `cf routes`.
 
 ![CF Push Log output](images/10-cf-logs.png)
-*You can find the service URL as part of the log output.
+*You can find the service URL as part of the log output or using the command `cf routes`*
 
 6. To test if everything is correct, please open the service health endpoint (`https://<service endpoint>/health`). If there is no error, everything is fine and you can continue to setup SAP Sales and Service Cloud V2. If there is a configuration problem, you will see an error response. Please check the configuration in you manifest file and push again. You can see the service logs by running `cf logs <application name>`.
 
@@ -101,7 +102,7 @@ As the coding of the project is done, we can start to configure and deploy it. T
 
 ### Step 3: Setup Sales and Service Cloud Version 2
 
-In SAP Sales and Service Cloud V2 two confirgurations are required. The Webservice needs to be registered as outbound communication system and we need a autoflow rule to trigger the service eveytime a new case of a certain type is created
+In SAP Sales and Service Cloud V2 two configurations are required. The Webservice needs to be registered as outbound communication system and we need a autoflow rule to trigger the service everytime a new case of a certain type is created.
 
 1. Create Communication system. Navigate to Settings -> Integration -> Communication System
 
@@ -110,7 +111,7 @@ In SAP Sales and Service Cloud V2 two confirgurations are required. The Webservi
 
 2. Create a new communication system using the + icon on top of the table.
 
-3. Set name and description and open the "Outbound" tab.
+3. Set name and description and open the "Outbound" tab and click "create".
 
 ![Configure Communication System and create outbound communication system](images/13-create-commuinicationsystem.png)
 
@@ -174,7 +175,7 @@ In this step we will create a new case and validate, if the sub-case is created 
 ![Create Case](images/21-create-case.png)
 *Create Case: Please include the keyword configured in autoflow*
 
-3. Open the "Related Entities" Tab. Maybe you need to refresh a few times. As the processing is asynchrounus it might take a few seconds till the sub-case is created and showing up in the list.
+3. Open the "Related Entities" Tab. Maybe you need to refresh a few times. As the processing is async it might take a few seconds till the sub-case is created and showing up in the list.
 
 ![Validate Sub-Case creation](images/22-validate-sub-case.png)
 *Validate if sub-case is created*
