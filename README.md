@@ -85,7 +85,7 @@ As the coding of the project is done, we can start to configure and deploy it. T
 ![Open Terminal and login to Cloud Foundry](images/08-CF-Login.png)
 *Cloud Foundry Login: If you are working on a fresh trial account, you are automaticaly logged in to the right org and space.*
 
-4. As a final step before we can deploy the application, we need to provide the service configuration. Please replace the placeholder in the `manifest.yaml` file with the information provided to you during the workshop.
+4. As a final step before we can deploy the application, we need to provide the service configuration. Please replace the placeholder in the `manifest.yaml` file with the information provided to you during the workshop. Please select a suitable app name (it needs to be unique on BTP).
 
 ![Adjust manifest.yamy](images/09-manifest.png)
 *Adjust manifest file with the information provided during the workshop*

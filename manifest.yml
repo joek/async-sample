@@ -1,6 +1,6 @@
 ---
 applications:
-- name: async-webhook-appstudio
+- name: <APP_NAME>
   command: node app.js
   instances: 3
   memory: 128M
