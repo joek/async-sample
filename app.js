@@ -20,36 +20,7 @@ app.post( '/webhook', async function(req, res) {
     id = req.body.data.currentImage.id
     data = req.body
     // Vaildate if case has a parent case
-    if(data.data && data.data.currentImage && !data.data.currentImage.parentCaseId){
-      // Create new sub-case
-      subCaseData = {
-        "subject": `Sub Case of ${data.data.currentImage.displayId}`,
-        "caseType": "ZJH2",
-        "origin": "MANUAL_DATA_ENTRY",
-        "status": "01",
-        "priority": "03",
-        "account": {
-          "id": data.data.currentImage.account.id
-        },
-            "relatedObjects": [
-            {
-                "objectId": id,
-                "type": "2886",
-                "role": "13"
-            }
-        ]
-      }
-
-      await axios.post(`${base_url}/v1/case-service/cases`, subCaseData)
-      .then(function (response) {
-        console.log(response)
-        
-      })
-      .catch(function (error) {          // handle error
-          console.log(error);
-          res.status(500)
-        })
-    }
+    console.log(data)
     // Send response
     res.end()
 })
