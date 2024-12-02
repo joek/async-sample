@@ -58,6 +58,8 @@ The project includes the following files:
 - `package.json`: Required nodejs libraries
 - `manifest.yml`: Deployment descriptor for cloud foundry
 
+*If you are not provided with a pre configured test system, you need to adjust the json structure in the `app.json` file according to the case-types available on your system*
+
 Your coding is going into the `app.js` file. We are exposing two endpoints. the `/health` endpoint is used to validate the service. In most cases it is not necesarry to implement this endpoint. During the training we use it to vaildate the setup before configuring Sales and Service Cloud V2.
 
 The business logic is exposed via `/webhook`. We are validating if the case is of a certain type. If this is the case, we are sending a post request to create the related sub-case.
